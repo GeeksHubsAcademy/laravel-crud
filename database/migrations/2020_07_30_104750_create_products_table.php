@@ -19,6 +19,8 @@ class CreateProductsTable extends Migration
             $table->float('price');
             $table->integer('stock');
             $table->boolean('available');
+            $table->string('image_path');
+            $table->integer('user_id');
             $table->softDeletes('deleted_at');
             $table->timestamps();//created_at & updated_at
         });

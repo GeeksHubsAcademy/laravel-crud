@@ -16,3 +16,7 @@ Route::prefix('product')->group(function ()
     Route::put('/{id}', 'ProductController@update');
     Route::delete('/{id}', 'ProductController@delete');
 });
+Route::prefix('category')->group(function ()
+{
+    Route::post('','CategoryController@create');
+});
