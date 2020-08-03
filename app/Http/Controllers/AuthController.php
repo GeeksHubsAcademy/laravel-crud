@@ -39,8 +39,13 @@ class AuthController extends Controller
         $token = $user->createToken('authToken')->accessToken;
         return response()->json(['token' => $token, 'user' => $user], 200);
     }
-    public function logout()
+    public function logout(Request $request)
     {
-
+        // $request->user() es lo mismo que Auth::user() o req.user en nodeJS
+        $request->user()->token()->revoke();
+        // DB::table('oauth_access_tokens')->where('revoked',1)->delete();
+        return response([
+            'mensaje' => 'User successfully logged out'
+        ]);
     }
 }
