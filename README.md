@@ -9,6 +9,9 @@ git clone
 ### Install dependencies
 composer update
 
+### Environment
+convert .env.example file to .env
+
 ### Create DB
 Create a DB called Laravel
 

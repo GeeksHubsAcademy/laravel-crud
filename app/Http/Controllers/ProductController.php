@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Product;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProductController extends Controller
@@ -13,7 +14,14 @@ class ProductController extends Controller
     {
         //Eager loading, esto es igual que include:['categories'] en sequelize
         // return Product::with('categories')->withTrashed()->get();//substrae también los registro eliminados (con valor en deleted_at)
-        return Product::with('categories')->get();
+        return Product::with('categories', 'seller')->get();
+    }
+    public function myProducts()
+    {
+        $user_id = Auth::id();
+        // dd($user_id);
+        $products = Product::where('user_id', $user_id)->with('categories', 'seller')->get();
+        return $products;
     }
     public function create(Request $request)
     {
@@ -21,8 +29,8 @@ class ProductController extends Controller
         $validator = Validator::make($body, [
             'name' => 'required|unique:products|string|max:255',
             'price' => 'required|numeric',
-            'image_path' =>'string',
-            'categories' =>'array',
+            'image_path' => 'string',
+            'categories' => 'array',
             'stock' => 'required|integer',
             'available' => 'required|boolean',
         ]);
@@ -33,6 +41,7 @@ class ProductController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
+        $body['user_id'] = Auth::id(); //Auth::id() nos devuelve el id del usuario que hace la request a través de su Bearer token
         $product = Product::create($body);
         //el attach añade los ids a la tabla intermedia equivalente a product.addCategory()
         $product->categories()->attach($body['categories']);
@@ -44,9 +53,9 @@ class ProductController extends Controller
         $validator = Validator::make($body, [
             'name' => 'string|max:255',
             'price' => 'numeric',
-            'image_path' =>'string',
+            'image_path' => 'string',
             'stock' => 'integer',
-            'categories' =>'array',
+            'categories' => 'array',
             'available' => 'boolean',
         ]);
 

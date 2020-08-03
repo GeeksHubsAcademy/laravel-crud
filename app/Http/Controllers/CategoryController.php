@@ -8,6 +8,15 @@ use Illuminate\Support\Facades\Validator;
 
 class CategoryController extends Controller
 {
+    public function getAll()
+    {
+        return Category::with('products')->get();
+    }
+    public function getOne($id)
+    {
+        $category = Category::find($id);
+        return $category->load('products');
+    }
     public function create(Request $request)
     {
         $body = $request->all();
@@ -21,7 +30,7 @@ class CategoryController extends Controller
                 'errors' => $validator->errors(),
             ], 400);
         }
-        $category= Category::create($body);
-        return response()->json($category,201);
+        $category = Category::create($body);
+        return response()->json($category, 201);
     }
 }
