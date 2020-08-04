@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ResetPassword;
 use App\User;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -47,5 +50,14 @@ class AuthController extends Controller
         return response([
             'mensaje' => 'User successfully logged out'
         ]);
+    }
+    public function sendResetPasswordEmail($email)
+    {
+        $user = User::where('email', $email)->first();
+        if($user)
+        {
+            Mail::to($email)->send(new ResetPassword($user));
+        }
+        return ['message' => 'A email was sent to your email box'];
     }
 }
