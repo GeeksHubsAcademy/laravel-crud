@@ -10,7 +10,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::prefix('auth')->group(function () {
     Route::post('signup', 'AuthController@signup');
     Route::post('login', 'AuthController@login');
-    Route::get('reset/{email}','AuthController@sendResetPasswordEmail');
+    Route::get('reset/{email}', 'AuthController@sendResetPasswordEmail');
+});
+Route::prefix('user')->middleware('auth:api')->group(function () {
+    Route::get('birthdate', 'UserController@getBirthdate');
 });
 Route::prefix('product')->group(function () {
     Route::get('', 'ProductController@getAll');
@@ -19,7 +22,6 @@ Route::prefix('product')->group(function () {
         Route::post('', 'ProductController@create');
         Route::put('{id}', 'ProductController@update');
         Route::delete('{id}', 'ProductController@delete');
-
     });
 });
 Route::prefix('category')->group(function () {
