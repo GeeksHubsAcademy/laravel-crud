@@ -29,3 +29,7 @@ Route::prefix('category')->group(function () {
     Route::get('{id}', 'CategoryController@getOne');
     Route::post('', 'CategoryController@create');
 });
+
+Route::prefix('order')->middleware('auth:api')->group(function () {
+    Route::post('', 'OrderController@create');
+});
