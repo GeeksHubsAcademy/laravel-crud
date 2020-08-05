@@ -4,13 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Order;
 use App\Repositories\OrderRepository;
+use App\Repositories\OrderRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
 class OrderController extends Controller
 {
     private $orderRepository;
-    public function __construct(OrderRepository $orderRepository)
+    public function __construct(OrderRepositoryInterface $orderRepository)
     {
         $this->orderRepository = $orderRepository;
     }

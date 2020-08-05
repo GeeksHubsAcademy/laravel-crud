@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use App\Order;// me traigo el modelo de Order
 
-class OrderRepository
+class OrderRepository implements OrderRepositoryInterface
 {
 
     public function create($body)
