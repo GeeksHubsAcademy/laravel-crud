@@ -28,7 +28,7 @@ class OrderController extends Controller
         if ($validation->fails()) {
             return response()->json(['message' => 'There was a problem trying to create the order', 'errors' => $validation->errors()], 400);
         }
-        $this->OrderService->createOrderAndNotifyUser($data);
+        $order = $this->OrderService->createOrderAndNotifyUser($data);
         return response()->json(['order' => $order], 201);
     }
 }

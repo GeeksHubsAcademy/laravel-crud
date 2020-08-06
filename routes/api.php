@@ -15,6 +15,7 @@ Route::prefix('auth')->group(function () {
 });
 Route::prefix('user')->middleware('auth:api')->group(function () {
     Route::get('birthdate', 'UserController@getBirthdate');
+    Route::get('detail','UserDetailController@index');
 });
 Route::prefix('product')->group(function () {
     Route::get('', 'ProductController@getAll');
