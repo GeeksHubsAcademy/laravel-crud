@@ -11,6 +11,7 @@ Route::prefix('auth')->group(function () {
     Route::post('signup', 'AuthController@signup');
     Route::post('login', 'AuthController@login');
     Route::get('reset/{email}', 'AuthController@sendResetPasswordEmail');
+    Route::get('logout','AuthController@logout')->middleware('auth:api');
 });
 Route::prefix('user')->middleware('auth:api')->group(function () {
     Route::get('birthdate', 'UserController@getBirthdate');
